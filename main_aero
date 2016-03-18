@@ -1,27 +1,31 @@
+/*
+ANTONIO, ISTO EM PRINCIPO E' O ESQUELETO DO PROGRAMA.
+E' SO SUBSTITUIR AS FUNCOES PELAS QUE AGENTE QUISER E TA FEITO,
+MAS O TRABALHO CHATO AINDA TA PA VIR XD FARTO DE MENUS :/
+HAVE FUN NO PICO :D
+*/
+
 #include <stdio.h>
 #include <string.h>
+
+/*Constantes*/
 
 #define ABERTO 1
 #define FECHADO 0
 #define AERO_MAX 1000
 
-int total_aeroportos = 0;
 
-/*vetor de estruturas*/
-/*sorter*/
+/*Estrutura de Dados*/
 
 typedef struct{
 
 	int cap_max;
-	char id[4];
-	int estado;
+	char id[4];		/* 3 letras de id e o \0 */
+	int estado;		
 	int incoming;
 	int outgoing;
 
 }aeroporto;
-
-aeroporto generico[AERO_MAX];
-
 
 typedef struct{
 
@@ -30,27 +34,252 @@ typedef struct{
 
 }voo;
 
-void cria_aeroporto(int cap, char id[]);
+
+/*Prototipos*/
+
+void alt_cap_aero(char id1[], int capacidade);
+void adiciona_aeroporto(char id1[], int capacidade);
+void adiciona_voo(char id1[], char id2[]);
+void adiciona_rota(char id1[], char id2[]);
+void remove_voo(char id1[], char id2[]);
+void remove_voo_idavolta(char id1[], char id2[]);
+void numero_voos(char id1[], char id2[]);
+aeroporto maior_nr_voos();
+aeroporto aeroporto_popular();
+aeroporto voo_popular();
+void fechar_aeroporto(char id1[]);
+void reabrir_aeroporto(char id1[]);
+void ordenar_entrada_sistema();
+void ordenar_alfabetica();
+void ordenar_histograma();
 
 
-int main(){
+/*Variaveis Globais*/
 
-    int x;
-    char y[4];
-    scanf("%d %s", &x, y);
-    cria_aeroporto(x,y);
-    printf("%d %s\n", generico[0].cap_max, generico[0].id);
+int total_aeroportos = 0;
+aeroporto generico[AERO_MAX];
+
+
+
+int main()
+{
+	char input = 'U'; /* Inicialiazada a 'U' para entrar no ciclo
+						 apenas 1 vez. Não corresponde a nenhuma
+						 funcao. */
+	char id1[4];
+	char id2[4];
+	int capacidade;
+	int escolha_listagem;
+	id1[3] = id2[3] = '\0';	
+	
+	while (input != 'X')
+	{
+		input = getchar();
+			
+		switch (input)
+		{
+			case 'A':
+			
+				scanf("%s %d", id1, &capacidade);
+				adiciona_aeroporto(id1, capacidade);
+				break;
+			
+			case 'I':
+				
+				scanf("%s %d", id1, &capacidade);
+				alt_cap_aero(id1, capacidade);
+				break;
+			
+			case 'F':		
+			
+				scanf("%s %s", id1, id2);
+				adiciona_voo(id1, id2);
+				break;
+			
+			case 'G':		
+			
+				scanf("%s %s", id1, id2);
+				adiciona_rota(id1, id2);
+				break;
+				
+			case 'R':		
+			
+				scanf("%s %s", id1, id2);
+				remove_voo(id1, id2);
+				break;
+				
+			case 'S':		
+			
+				scanf("%s %s", id1, id2);
+				remove_voo_idavolta(id1, id2);
+				break;
+				
+			case 'N':		
+			
+				scanf("%s %s", id1, id2);
+				numero_voos(id1, id2);
+				break;
+				
+			case 'P':
+			
+				maior_nr_voos();
+				printf("caso P foi bem seucedido");
+				break;
+				
+			case 'Q':
+			
+				aeroporto_popular();
+				printf("caso Q foi bem seucedido");
+				break;
+				
+			case 'V':
+			
+				voo_popular();
+				printf("caso V foi bem seucedido");
+				break;
+			
+			case 'C':
+			
+				scanf("%s", id1);
+				fechar_aeroporto(id1);
+				break;
+				
+			case 'O':
+			
+				scanf("%s", id1);
+				reabrir_aeroporto(id1);
+				break; 			
+				
+			case 'L':
+			
+				scanf("%d", &escolha_listagem);
+				while ((escolha_listagem < 0) || (escolha_listagem > 2))
+				{
+					printf("Por favor introduza uma listagem disponivel");
+					scanf("%d", &escolha_listagem);
+				}
+				switch (escolha_listagem)
+				{
+					case 0:
+						
+						ordenar_entrada_sistema();
+						break;
+						
+					case 1:
+					
+						ordenar_alfabetica();
+						break;
+					
+					case 2:
+					
+						ordenar_histograma();
+						break;
+				}
+				break;
+				
+			default:
+			
+				printf("Comando nao reconhecido, por favor reintroduza a operacao.");
+			
+		}
+		
+	}
+
+
+
 	return 0;
-
+	
 }
 
 
+void alt_cap_aero(char id1[], int capacidade)
+{
+	printf("altera cap. aero. %s %d", id1, capacidade);
 
-void cria_aeroporto(int cap, char id[]){
+}
+
+void adiciona_aeroporto(char id1[], int capacidade)
+{
+	printf("add aeroporto %s %d", id1, capacidade);
 	
-    generico[total_aeroportos].cap_max = cap;
-    strcpy(generico[total_aeroportos].id, id);
-    generico[total_aeroportos].estado = ABERTO;
+}
+
+void adiciona_voo(char id1[], char id2[])
+{
+	printf("add voo %s %s", id1, id2);
+
+}
+
+void adiciona_rota(char id1[], char id2[])
+{
+	printf("add rota %s %s", id1, id2);
+
+}
+
+void remove_voo(char id1[], char id2[])
+{
+	printf("remove voo %s %s", id1, id2);
+
+}
+
+void remove_voo_idavolta(char id1[], char id2[])
+{
+	printf("remove voo ida e volta %s %s", id1, id2);
+
+}
+
+void numero_voos(char id1[], char id2[])
+{
+	printf("TEM OUTPUT!!! nr. voos %s %s", id1, id2);
+
+}
+
+aeroporto maior_nr_voos()
+{
+	aeroporto teste;
+	return teste;
+		
+}
+
+aeroporto aeroporto_popular()
+{
+	aeroporto teste;
+	return teste;
+		
+}
+
+aeroporto voo_popular()
+{
+	aeroporto teste;
+	return teste;
+		
+}
+
+void fechar_aeroporto(char id1[])
+{
+	printf("fecho aeroporto %s", id1);
 	
-	total_aeroportos++;
+}
+
+void reabrir_aeroporto(char id1[])
+{
+	printf("aberto aeroporto %s", id1);
+	
+}
+
+void ordenar_entrada_sistema()
+{
+	printf("entrada sistema");
+	
+}
+void ordenar_alfabetica()
+{
+	printf("alfabetica");
+	
+}
+
+void ordenar_histograma()
+{
+	printf("histograma");
+	
 }
