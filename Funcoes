@@ -75,3 +75,28 @@ void alt_cap_aero(char id[], int alt)
 		}
 	}
 }
+
+void add_in_out(char id1[], char id2[])
+{
+	/*temos de fazer mais eficiente*/
+	int i = 0;
+	int v = 0;
+	
+	for(; i < total_aeroportos; i++)
+	{
+		if(strcmp(generico[i].id, id1) == 0)
+		{
+			v = i;
+		}
+	}
+
+	for (i = 0; i < total_aeroportos ; ++i)
+	{
+		/* code */
+		if (strcmp(generico[v].id, id2) == 0)
+		{
+			/*NAO ACABADA*/
+		}
+	}
+
+}
