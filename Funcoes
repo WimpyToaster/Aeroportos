@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #define ABERTO 1
 #define FECHADO 0
@@ -6,18 +7,20 @@
 
 int total_aeroportos = 0;
 
-aeroporto generico[AERO_MAX];
-
 /*vetor de estruturas*/
 /*sorter*/
 
 typedef struct{
 
 	int cap_max;
-	int id;
+	char id[4];
 	int estado;
+	int incoming;
+	int outgoing;
 
 }aeroporto;
+
+aeroporto generico[AERO_MAX];
 
 
 typedef struct{
@@ -27,23 +30,27 @@ typedef struct{
 
 }voo;
 
-void cria_aeroporto(int cap_max, int id);
+void cria_aeroporto(int cap, char id[]);
 
 
 int main(){
 
+    int x;
+    char y[4];
+    scanf("%d %s", &x, y);
+    cria_aeroporto(x,y);
+    printf("%d %s\n", generico[0].cap_max, generico[0].id);
 	return 0;
 
 }
 
 
 
-void cria_aeroporto(int cap_max, int id){
-
-    generico[total_aeroportos].cap_max = cap_max;
-    generico[total_aeroportos].id = id;
+void cria_aeroporto(int cap, char id[]){
+	
+    generico[total_aeroportos].cap_max = cap;
+    strcpy(generico[total_aeroportos].id, id);
     generico[total_aeroportos].estado = ABERTO;
 	
 	total_aeroportos++;
 }
-
