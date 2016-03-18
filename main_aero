@@ -1,9 +1,32 @@
 #include <stdio.h>
 
-
+#define ABERTO 1
+#define FECHADO 0
+#define AERO_MAX 1000
 
 int main(){
-    
-    
-    return 0;
+
+	return 0;
+
 }
+
+
+/*vetor de estruturas*/
+/*sorter*/
+
+typedef struct{
+
+int cap_max;
+int id;
+int estado = ABERTO;
+
+}aeroporto;
+
+aeroporto generico[AERO_MAX];
+
+typedef struct{
+
+aeroporto partida;
+aeroporto destino;
+
+}voo;
