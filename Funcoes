@@ -1,1 +1,49 @@
+#include <stdio.h>
+
+#define ABERTO 1
+#define FECHADO 0
+#define AERO_MAX 1000
+
+int total_aeroportos = 0;
+
+aeroporto generico[AERO_MAX];
+
+/*vetor de estruturas*/
+/*sorter*/
+
+typedef struct{
+
+	int cap_max;
+	int id;
+	int estado;
+
+}aeroporto;
+
+
+typedef struct{
+
+	aeroporto partida;
+	aeroporto destino;
+
+}voo;
+
+void cria_aeroporto(int cap_max, int id);
+
+
+int main(){
+
+	return 0;
+
+}
+
+
+
+void cria_aeroporto(int cap_max, int id){
+
+    generico[total_aeroportos].cap_max = cap_max;
+    generico[total_aeroportos].id = id;
+    generico[total_aeroportos].estado = ABERTO;
+	
+	total_aeroportos++;
+}
 
