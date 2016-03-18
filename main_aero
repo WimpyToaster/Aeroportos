@@ -12,8 +12,10 @@ int total_aeroportos = 0;
 typedef struct{
 
 	int cap_max;
-	int id;
+	char id;
 	int estado;
+	int incoming;
+	int outgoing;
 
 }aeroporto;
 
@@ -26,7 +28,7 @@ typedef struct{
 
 }voo;
 
-void cria_aeroporto(int cap_max, int id);
+void cria_aeroporto(int cap_max, char id);
 
 
 int main(){
@@ -41,7 +43,7 @@ int main(){
 
 
 
-void cria_aeroporto(int cap_max, int id){
+void cria_aeroporto(int cap_max, char id){
 
     generico[total_aeroportos].cap_max = cap_max;
     generico[total_aeroportos].id = id;
