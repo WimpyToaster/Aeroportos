@@ -31,14 +31,17 @@ typedef struct{
 }voo;
 
 void cria_aeroporto(int cap, char id[]);
+void alt_cap_aero(char id[], int alt);
 
 
-int main(){
-
+int main()
+{
     int x;
     char y[4];
     scanf("%d %s", &x, y);
     cria_aeroporto(x,y);
+    scanf("%s %d", y, &x);
+    alt_cap_aero(y,x);
     printf("%d %s\n", generico[0].cap_max, generico[0].id);
 	return 0;
 
@@ -46,11 +49,29 @@ int main(){
 
 
 
-void cria_aeroporto(int cap, char id[]){
-	
+void cria_aeroporto(int cap, char id[])
+{	
     generico[total_aeroportos].cap_max = cap;
     strcpy(generico[total_aeroportos].id, id);
     generico[total_aeroportos].estado = ABERTO;
 	
 	total_aeroportos++;
+}
+
+void alt_cap_aero(char id[], int alt)
+{
+	int i = 0;
+
+	for (; i <= total_aeroportos; i++)
+	{
+		if (i==total_aeroportos)
+		{
+			printf("Capacidade de %s inalterado.\n", id);
+		}
+		else if (strcmp(generico[i].id, id)==0)
+		{
+			generico[i].cap_max += alt;
+			break;
+		}
+	}
 }
