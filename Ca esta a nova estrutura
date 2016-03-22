@@ -1,0 +1,504 @@
+#include <stdio.h>
+#include <string.h>
+
+#define ABERTO 1
+#define FECHADO 0
+#define AERO_MAX 1000
+#define FALSO_INDEX_FLAG1 1335
+#define FALSO_INDEX_FLAG2 1336
+#define DOIS_FALSO_INDEX 1337
+
+
+typedef struct{
+
+	int cap_max;
+	char id[4];
+	int estado;
+	int incoming;
+	int outgoing;
+	
+}aeroporto;
+
+
+
+/*prototipos*/
+void cria_aeroporto(char id1[], int capacidade);
+
+void alt_cap_aero(char id1[], int capacidade);
+
+void adiciona_voo_idavolta(char id1[], char id2[]);
+
+void adiciona_rota(char id1[], char id2[]);
+
+void remove_voo(char id1[], char id2[]);
+
+void remove_voo_idavolta(char id1[], char id2[]);
+
+void numero_voos(char id1[], char id2[]);
+
+aeroporto maior_nr_voos();
+
+aeroporto aeroporto_popular();
+
+aeroporto voo_popular();
+
+void fechar_aeroporto(char id1[]);
+
+void reabrir_aeroporto(char id1[]);
+
+void ordenar_entrada_sistema();
+
+void ordenar_alfabetica();
+
+void ordenar_histograma();
+
+int encontra_index(char id1[], char id2[], int index[]);	/*o index é o vetor onde se guarda os 2 index's de cada id*/
+
+
+/* prototipos funcoes TAD aeroporto */
+int aero_cap_max(int index);
+
+char aero_id(int index);
+
+int aero_estado(int index);
+
+int aero_incoming(int index);
+
+int aero_outgoing(int index);
+
+
+/*variaveis globais*/
+
+int total_aeroportos = 0;
+
+aeroporto generico[AERO_MAX];
+
+int voos[AERO_MAX][AERO_MAX] = 0;
+
+
+int main()
+{
+	char input = 'U'; /* Inicialiazada a 'U' para entrar no ciclo
+						 apenas 1 vez. Não corresponde a nenhuma
+						 funcao. */
+	char id1[4];
+	char id2[4];
+	int capacidade;
+	int escolha_listagem;
+	id1[3] = id2[3] = '\0';	
+	
+	while (input != 'X')
+	{
+		input = getchar();
+			
+		switch (input)
+		{
+			case 'A':
+			
+				scanf("%s%d", id1, &capacidade);
+				getchar();
+				cria_aeroporto(id1, capacidade);
+				break;
+			
+			case 'I':
+				
+				scanf("%s%d", id1, &capacidade);
+				getchar();
+				alt_cap_aero(id1, capacidade);
+				break;
+			
+			case 'F':		
+			
+				scanf("%s%s", id1, id2);
+				getchar();
+				adiciona_voo_idavolta(id1, id2);
+				break;
+			
+			case 'G':		
+			
+				scanf("%s%s", id1, id2);
+				getchar();
+				adiciona_rota(id1, id2);
+				break;
+				
+			case 'R':		
+			
+				scanf("%s%s", id1, id2);
+				getchar();
+				remove_voo(id1, id2);
+				break;
+				
+			case 'S':		
+			
+				scanf("%s%s", id1, id2);
+				getchar();
+				remove_voo_idavolta(id1, id2);
+				break;
+				
+			case 'N':		
+			
+				scanf("%s%s", id1, id2);
+				getchar();
+				numero_voos(id1, id2);
+				break;
+				
+			case 'P':
+			
+				maior_nr_voos();
+				printf("caso P foi bem seucedido\n");
+				break;
+				
+			case 'Q':
+			
+				aeroporto_popular();
+				printf("caso Q foi bem seucedido\n");
+				break;
+				
+			case 'V':
+			
+				voo_popular();
+				printf("caso V foi bem seucedido\n");
+				break;
+			
+			case 'C':
+			
+				scanf("%s", id1);
+				getchar();
+				fechar_aeroporto(id1);
+				break;
+				
+			case 'O':
+			
+				scanf("%s", id1);
+				getchar();
+				reabrir_aeroporto(id1);
+				break; 			
+				
+			case 'L':
+			
+				scanf("%d", &escolha_listagem);
+				getchar();
+				while ((escolha_listagem < 0) || (escolha_listagem > 2))
+				{
+					printf("Por favor introduza uma listagem disponivel.\n");
+					scanf("%d", &escolha_listagem);
+					getchar();
+				}
+				switch (escolha_listagem)
+				{
+					case 0:
+						
+						ordenar_entrada_sistema();
+						break;
+						
+					case 1:
+					
+						ordenar_alfabetica();
+						break;
+					
+					case 2:
+					
+						ordenar_histograma();
+						break;
+				}
+				break;
+				
+			case 'X':
+			
+				break;
+				
+			default:
+			
+				printf("Comando nao reconhecido, por favor reintroduza a operacao.\n");
+			
+		}
+		
+	}
+
+
+
+	return 0;
+	
+}
+
+
+void cria_aeroporto(char id1[], int capacidade)	/*funcao A*/
+{
+	aero_cap_max(total_aeroportos) = capacidade;
+    strcpy(aero_id(total_aeroportos), id1);
+    aero_estado(total_aeroportos) = ABERTO;	
+	total_aeroportos++;
+	
+}
+
+void alt_cap_aero(char id1[], int capacidade) /*funcao I*/
+{
+	int i = 0;
+
+	for (; i <= total_aeroportos; i++)
+	{
+		if (i==total_aeroportos)
+		{
+			printf("Capacidade de %s inalterado.\n", id1);
+		}
+		else if (strcmp(aero_id(i), id1)==0)
+		{
+
+			if ( (aero_cap_max(i) + capacidade) < 0 || (aero_cap_max(i) + capacidade) < (aero_outgoing(i) + aero_incoming(i)) )
+			{
+				printf("Capacidade de %s inalterado.\n", id1);
+			}
+
+			else
+			{
+				aero_cap_max(i) += capacidade;
+			}
+
+			break;
+		}
+	}
+
+}
+
+
+void adiciona_voo_idavolta(char id1[], char id2[]) /*funcao F*/
+{
+	int index[2];
+	encontrados = encontra_index(id1, id2, index);
+
+	if (encontrados) == DOIS_FALSO_INDEX || encontrados == FALSO_INDEX_FLAG1 || encontrados == FALSO_INDEX_FLAG2 || aero_cap_max(index[0]) == (aero_outgoing(index[0]) + aero_incoming(index[0])) || aero_cap_max(index[1]) == (aero_outgoing(index[1]) + aero_incoming(index[1])) )
+	{
+		printf("Impossivel adicionar voo RT %s %s\n", id1, id2);
+	}
+	else
+	{
+		voos[index[0]][index[1]] += 1;
+		aero_incoming(index[0]) += 1;
+		aero_outgoing(index[0]) += 1;
+		
+		voos[index[1]][index[0]] += 1;
+		aero_incoming(index[1]) += 1;
+		aero_outgoing(index[1]) += 1;
+
+	}
+
+}
+
+void adiciona_rota(char id1[], char id2[])/*funcao G*/
+{
+	int index[2];
+	encontrados = encontra_index(id1, id2, index);
+
+	if (encontrados == DOIS_FALSO_INDEX || encontrados == FALSO_INDEX_FLAG1 || encontrados == FALSO_INDEX_FLAG2 || aero_cap_max(index[0]) == (aero_outgoing(index[0]) + aero_incoming(index[0])) || aero_cap_max(index[1]) == (aero_outgoing(index[1]) + aero_incoming(index[1])) )
+	{
+		printf("Impossivel adicionar voo %s %s\n", id1, id2);
+	}
+	else
+	{
+		voos[index[0]][index[1]] += 1;
+		generico[index[0]].outgoing += 1;
+		generico[index[1]].incoming += 1;
+		
+	}
+
+}
+
+void remove_voo(char id1[], char id2[])/*funcao R*/
+{
+	int index[2];
+	encontrados = encontra_index(id1, id2, index);
+
+	if (encontrados == DOIS_FALSO_INDEX || encontrados == FALSO_INDEX_FLAG1 || encontrados == FALSO_INDEX_FLAG2 || aero_outgoing(index[0]) == 0 || aero_incoming(index[1]) == 0)
+	{
+		printf("Impossivel remover voo %s %s\n", id1, id2);
+	}
+		
+	else
+	{
+		voos[index[0]][index[1]] -= 1;
+		generico[index[0]].outgoing -= 1;
+		generico[index[1]].incoming -= 1;
+	}
+
+}
+
+void remove_voo_idavolta(char id1[], char id2[])/*funcao S*/
+{
+	int index[2];
+	encontrados = encontra_index(id1, id2, index);
+
+	if (encontrados == DOIS_FALSO_INDEX || encontrados == FALSO_INDEX_FLAG1 || encontrados == FALSO_INDEX_FLAG2 || aero_outgoing(index[0]) == 0 || aero_incoming(index[0]) == 0 || aero_outgoing(index[1]) == 0 || aero_incoming(index[1]) == 0)
+	{
+		printf("Impossivel remover voo %s %s\n", id1, id2);
+	}
+		
+	else
+	{
+		voos[index[0]][index[1]] -= 1;
+		voos[index[1]][index[0]] -= 1;
+		generico[index[0]].outgoing -= 1;
+		generico[index[0]].incoming -= 1;
+		generico[index[1]].outgoing -= 1;
+		generico[index[1]].incoming -= 1;
+	}
+
+}
+
+void numero_voos(char id1[], char id2[])/*funcao N*/
+{
+	int index[2];
+	int nout;
+	int nin;
+	encontrados = encontra_index(id1, id2, index);
+
+	if (encontrados == DOIS_FALSO_INDEX)
+	{
+		printf("Aeroporto %s inexistente\n", id1);
+		printf("Aeroporto %s inexistente\n", id2);
+	}
+
+	else if (encontrados == FALSO_INDEX_FLAG1)
+	
+		printf("Aeroporto %s inexistente\n", id1);
+	
+	else if (encontrados == FALSO_INDEX_FLAG2)
+	
+		printf("Aeroporto %s inexistente\n", id2);
+	
+	else
+	{
+		nout = voos[index[0]][index[1]];
+		nin = voos[index[1]][index[0]];
+		printf("Voos entre cidades %s:%s:%d:%d\n", id1, id2, nout, nin);
+	}
+	
+}
+
+aeroporto maior_nr_voos()/*funcao P*/
+{
+	aeroporto teste;
+	return teste;
+		
+}
+
+aeroporto aeroporto_popular()/*funcao Q*/
+{
+	aeroporto teste;
+	return teste;
+		
+}
+
+aeroporto voo_popular()/*funcao V*/
+{
+	aeroporto teste;
+	return teste;
+		
+}
+
+void fechar_aeroporto(char id1[])/*funcao C*/
+{
+	printf("fecho aeroporto %s\n", id1);
+	
+}
+
+void reabrir_aeroporto(char id1[])/*funcao O*/
+{
+	printf("aberto aeroporto %s\n", id1);
+	
+}
+
+void ordenar_entrada_sistema()/*funcao L0*/
+{
+	printf("entrada sistema\n");
+	
+}
+void ordenar_alfabetica()/*funcao L1*/
+{
+	printf("alfabetica\n");
+	
+}
+
+void ordenar_histograma()/*funcao L2*/
+{
+	printf("histograma\n");
+	
+}
+
+
+
+
+/* Funcoes TAD aeroporto */
+
+int aero_cap_max(int index)
+{
+	return generico[index].cap_max;
+}
+
+char aero_id(int index)
+{
+	return generico[index].id;
+}
+
+int aero_estado(int index)
+{
+	return generico[index].estado;
+}
+
+int aero_incoming(int index)
+{
+	return generico[index].incoming;
+}
+
+int aero_outgoing(int index)
+{
+	return generico[index].outgoing;
+}
+
+
+
+/*FUNCOES AUXILIARES*/
+
+int encontra_index(char id1[], char id2[], int index[])
+{
+
+	int i = 0;
+	int flag1 = 0 , flag2 = 0;
+
+	for (; i < total_aeroportos; i++)
+	{
+		if (flag1 == 0)
+		{
+			if(strcmp(generico[i].id, id1)==0)
+			{
+				index[0] = i;
+				flag1 = 1;
+			}
+		}
+
+		if (flag2 == 0)
+		{
+			if (strcmp(generico[i].id, id2)==0)
+			{
+				index[1] = i;
+				flag2 = 1;
+			}
+		}
+	}
+
+	if (flag1 == 0 && flag2 == 0)
+
+		return DOIS_FALSE_INDEX;
+
+	else if (flag1 == 0)
+		
+		return FALSO_INDEX_FLAG1;
+
+	else if (flag2 == 0)
+
+		return FALSO_INDEX_FLAG2;
+
+	else
+		
+		return 0;
+		
+}
