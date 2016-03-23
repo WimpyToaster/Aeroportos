@@ -56,6 +56,8 @@ int encontra_index_2(char id1[], char id2[], int index[]);	/*o index é o vetor 
 
 int encontra_indice(char id[]); /*repeticao da funcao anterior, mas apenas aceita 1 argumento*/
 
+int nr_voos();
+
 
 /* prototipos funcoes TAD aeroporto */
 
@@ -207,6 +209,7 @@ int main()
 				
 			case 'X':
 			
+				printf("%d:%d",nr_voos() ,total_aeroportos);
 				break;
 				
 			default:
@@ -653,5 +656,20 @@ int encontra_indice(char id[])
 	
 		return index;
 }
+
+int nr_voos()
+{
+	int i = 0;
+	int acc = 0;
+	
+	while (i != total_aeroportos)
+	{
+		acc = acc + generico[i].outgoing + generico[i].incoming;
+	}
+	
+	return acc;
+
+}
+
 
 
