@@ -570,19 +570,13 @@ void ordenar_alfabetica()/*funcao L1*/
 				{
 					empurra_vetor(j, vetor_ordenado);
 					vetor_ordenado[j] = i;
-					break;
 					
 				}
-				
-				else if(strcmp(generico[j].id, generico[i].id) == 0)
-			
-					printf("ERRO!\n");
-				
 				j++;
 					
 			}
-		i++;
-		j = 0;
+			i++;
+			j = 0;
 		
 		}
 		
