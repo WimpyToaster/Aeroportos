@@ -544,24 +544,17 @@ void ordenar_entrada_sistema()/*funcao L0*/
 
 void ordenar_alfabetica()/*funcao L1*/
 {
+	int flag = 0;
 	int i = 0;
-	int j = 0;
+	int j = 1;
 	int pointer = 0;
 	int index = 0;
-	int vetor_ordenacao[total_aeroportos];
 	int memoria[total_aeroportos];
-	
-	while (i < total_aeroportos)
-	{
-		vetor_ordenacao[i] = i;
-		i++;
-		printf("%d\n", i);
-	}
 	
 	i = 0;
 	while (i < total_aeroportos)
 	{
-		vetor_ordenacao[i] = -1;
+		memoria[i] = 0;
 		i++;
 		
 	}
@@ -574,20 +567,25 @@ void ordenar_alfabetica()/*funcao L1*/
 			if ((strcmp(generico[pointer].id, generico[j].id) > 0) && !(elemento_in_vec(j, memoria)))
 			{
 				pointer = j;
+				flag = 1;
 			}
 			j++;
 		}	
-	
-		memoria[i] = pointer;
-		vetor_ordenacao[i] = pointer;
-		pointer = i++;
-		j = 0;
+		
+		if (flag == 1)
+		{
+			memoria[i] = pointer;
+			flag = 0;
+		}
+		pointer = i;
+		i++;
+		j = 1;
 	}
 	
 	i = 0;
 	while (i < total_aeroportos)
 	{
-		index = vetor_ordenacao[i];
+		index = memoria[i];
 		printf("%s:%d:%d:%d\n", generico[index].id, aero_cap_max(index), aero_outgoing(index), aero_incoming(index));
 		i++;
 		
