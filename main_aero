@@ -561,6 +561,14 @@ void ordenar_alfabetica()/*funcao L1*/
 	i = 0;
 	while (i < total_aeroportos)
 	{
+		vetor_ordenacao[i] = -1;
+		i++;
+		
+	}
+	
+	i = 0;
+	while (i < total_aeroportos)
+	{
 		while (j < total_aeroportos)
 		{
 			if ((strcmp(generico[pointer].id, generico[j].id) > 0) && !(elemento_in_vec(pointer, memoria[])))
