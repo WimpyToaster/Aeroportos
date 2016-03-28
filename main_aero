@@ -598,6 +598,8 @@ void ordenar_alfabetica()/*funcao L1*/
 		{
 			index = vetor_ordenado[i];
 			printf("%s:%d:%d:%d", generico[index].id, aero_cap_max(index), aero_outgoing(index), aero_incoming(index));
+			i++;
+			
 		}
 	}
 }
