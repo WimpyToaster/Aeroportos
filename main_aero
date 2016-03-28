@@ -430,7 +430,7 @@ void maior_nr_voos()	/*funcao P*/
 			buffer = nr_voos;
 			index = i;
 		}
-		
+		i++
 	}
 	
 	printf("Aeroporto com mais rotas %s:%d:%d", generico[index].id, aero_outgoing(index), aero_incoming(index));
