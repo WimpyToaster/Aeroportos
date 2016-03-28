@@ -58,6 +58,8 @@ int encontra_indice(char id[]); /*repeticao da funcao anterior, mas apenas aceit
 
 int nr_voos();
 
+void empurra_vetor(int j, int vetor[]);
+
 
 /* prototipos funcoes TAD aeroporto */
 
@@ -536,10 +538,68 @@ void ordenar_entrada_sistema()/*funcao L0*/
 	}
 	
 }
+
 void ordenar_alfabetica()/*funcao L1*/
-{
-	printf("alfabetica\n");
+{/*insertion*/
+	if (total_aeroportos == 0)
+		
+		printf("Nao e' possivel ordenar, nao existem aeroportos.");
 	
+	else
+	{
+		int i = 0;
+		int j = 0;
+		int index = 0;
+		int vetor_ordenado[total_aeroportos];
+		
+		while (i < total_aeroportos)/*inicialiacao do vetor*/
+		{
+			vetor_ordenado[i] = 0;
+			i++;
+		
+		}
+		vetor_ordenado[0] = -1;
+		
+		while (i < total_aeroportos)
+		{
+			if (vetor_ordenado[0] == -1)
+					vetor_ordenado[0] = generico[i].indice;
+					/*inicializa com o indice do 1º aeroporto*/
+			
+			while (j < total_aeroportos)
+			{	
+				index = vetor_ordenado[j];
+				
+				if (strcmp(generico[index].id, generico[i].id) > 0)
+				{
+					empurra_vetor(j, vetor_ordenado);
+					vetor_ordenado[j] = generico[i].indice;
+					break;
+					
+				}
+				
+				else if (strcmp(generico[index].id, generico[i].id) == 0)
+			
+					printf("ERRO!");
+							
+				else
+					
+					j++;
+					
+			}
+		i++;
+		j = 0;
+		
+		}
+		
+		i = 0;
+		
+		while (i < total_aeroportos)
+		{
+			index = vetor_ordenado[i];
+			printf("%s:%d:%d:%d", generico[index].id, aero_cap_max(index), aero_outgoing(index), aero_incoming(index));
+		}
+	}
 }
 
 void ordenar_histograma()/*funcao L2*/
@@ -704,4 +764,19 @@ int nr_voos()
 	
 	return acc;
 
+}
+
+
+void empurra_vetor(int j, int vetor_ordenado[])
+{
+	int buffer[2] = {0,0};
+	
+	while (j < (total_aeroportos - 1))
+	{
+		buffer[1] = vetor_ordenado[j + 1];
+		vetor_ordenado[j + 1] = buffer[0];
+		buffer[0] = buffer[1] ;
+		j++;
+		
+	}
 }
