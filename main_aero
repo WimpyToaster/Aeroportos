@@ -624,7 +624,7 @@ void ordenar_histograma()/*funcao L2*/
 	/* faz print do histograma */
 	for(i=0; i <= buffer ; i++)
 	{
-		for(nr_aeros = 0; t < total_aeroportos; t++)
+		for(nr_aeros = 0, t = 0; t < total_aeroportos; t++)
 		{
 			if( (aero_outgoing(t) + aero_incoming(t)) == i )
 			{
