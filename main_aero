@@ -16,6 +16,7 @@ typedef struct{
 	int estado;
 	int incoming;
 	int outgoing;
+	int indice;      /*FOI AQUI QUE MUDEI CARALHO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 	
 }aeroporto;
 
