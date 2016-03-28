@@ -568,7 +568,7 @@ void ordenar_alfabetica()/*funcao L1*/
 					vetor_ordenado[0] = generico[i].indice;
 					/*inicializa com o indice do 1º aeroporto*/
 			
-			while (j < total_aeroportos)
+		while (j < total_aeroportos)
 			{	
 				index = vetor_ordenado[j];
 				
@@ -580,13 +580,11 @@ void ordenar_alfabetica()/*funcao L1*/
 					
 				}
 				
-				else if (strcmp(generico[index].id, generico[i].id) == 0)
+				else if(strcmp(generico[index].id, generico[i].id) == 0)
 			
 					printf("ERRO!");
-							
-				else
-					
-					j++;
+				
+				j++;
 					
 			}
 		i++;
