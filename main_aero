@@ -529,7 +529,11 @@ void reabrir_aeroporto(char id1[])/*funcao O*/
 
 void ordenar_entrada_sistema()/*funcao L0*/
 {
-	printf("entrada sistema\n");
+	int i = 0;
+	for(; i < total_aeroportos; i++)
+	{
+		printf("%s:%d:%d:%d\n", generico[i].id, aero_cap_max(i), aero_outgoing(i), aero_incoming(i));
+	}
 	
 }
 void ordenar_alfabetica()/*funcao L1*/
@@ -540,8 +544,37 @@ void ordenar_alfabetica()/*funcao L1*/
 
 void ordenar_histograma()/*funcao L2*/
 {
-	printf("histograma\n");
+	int i = 0, t = 0;
+	int buffer;
+	int nr_voos = 0;
+	int nr_aeros;
 	
+	/* ve qual o maior numero de voos */
+	for(buffer = 0; i < total_aeroportos; i++) 
+	{
+		nr_voos = aero_incoming(i) + aero_outgoing(i);
+		
+		if (buffer < nr_voos)
+		{
+			buffer = nr_voos;
+		}
+	}
+
+	/* faz print do histograma */
+	for(i=0; i <= buffer ; i++)
+	{
+		for(nr_aeros = 0; t < total_aeroportos; t++)
+		{
+			if( (aero_outgoing(t) + aero_incoming(t)) == i )
+			{
+				nr_aeros++;
+			}
+		}
+
+		if (nr_aeros != 0)
+			printf("%d:%d\n", i, nr_aeros);		
+	} 
+		
 }
 
 
