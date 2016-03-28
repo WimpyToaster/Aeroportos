@@ -3,6 +3,8 @@
 
 #define ABERTO 1
 #define FECHADO 0
+#define TRUE 1
+#define FALSE 0
 #define AERO_MAX 1000
 #define FALSO_INDEX_FLAG1 1335
 #define FALSO_INDEX_FLAG2 1336
@@ -16,7 +18,7 @@ typedef struct{
 	int estado;
 	int incoming;
 	int outgoing;
-	int indice;      /*FOI AQUI QUE MUDEI CARALHO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
 	
 }aeroporto;
 
@@ -58,6 +60,8 @@ int encontra_index_2(char id1[], char id2[], int index[]);	/*o index é o vetor 
 int encontra_indice(char id[]); /*repeticao da funcao anterior, mas apenas aceita 1 argumento*/
 
 int nr_voos();
+
+int elemento_in_vec(int pointer, int memoria[];
 
 
 /* prototipos funcoes TAD aeroporto */
@@ -545,12 +549,13 @@ void ordenar_alfabetica()/*funcao L1*/
 	int pointer = 0;
 	int index = 0;
 	int vetor_ordenacao[total_aeroportos];
+	int memoria[total_aeroportos];
 	
 	while (i < total_aeroportos)
 	{
 		vetor_ordenacao[i] = i;
 		i++;
-		printf("%d", i);
+		printf("%d\n", i);
 	}
 	
 	i = 0;
@@ -558,13 +563,14 @@ void ordenar_alfabetica()/*funcao L1*/
 	{
 		while (j < total_aeroportos)
 		{
-			if (strcmp(generico[pointer].id, generico[j].id) > 0)
+			if ((strcmp(generico[pointer].id, generico[j].id) > 0) || !(elemento_in_vec(pointer, memoria[])))
 			{
 				pointer = j;
 			}
 			j++;
 		}	
 	
+		memoria[i] = pointer;
 		vetor_ordenacao[i] = pointer;
 		pointer = i++;
 		j = 0;
@@ -574,11 +580,12 @@ void ordenar_alfabetica()/*funcao L1*/
 	while (i < total_aeroportos)
 	{
 		index = vetor_ordenacao[i];
-		printf("%s:%d:%d:%d", generico[index].id, aero_cap_max(index), aero_outgoing(index), aero_incoming(index));
+		printf("%s:%d:%d:%d\n", generico[index].id, aero_cap_max(index), aero_outgoing(index), aero_incoming(index));
 		i++;
 		
 	}
 }
+
 void ordenar_histograma()/*funcao L2*/
 {
 	int i = 0, t = 0;
@@ -600,7 +607,8 @@ void ordenar_histograma()/*funcao L2*/
 	/* faz print do histograma */
 	for(i=0; i <= buffer ; i++)
 	{
-		for(nr_aeros = 0, t = 0; t < total_aeroportos; t++)
+		t = 0;
+		for(nr_aeros = 0; t < total_aeroportos; t++)
 		{
 			if( (aero_outgoing(t) + aero_incoming(t)) == i )
 			{
@@ -741,4 +749,18 @@ int nr_voos()
 	
 	return acc;
 
+}
+
+int (elemento_in_vec(int pointer, int memoria[]
+{
+	int i = 0;
+	
+	while (i < total_aeroportos)
+	{
+		if (pointer == memoria[i])
+			return TRUE;
+		i++;
+	}
+	return FALSE;
+	
 }
