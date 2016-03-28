@@ -560,6 +560,7 @@ void ordenar_alfabetica()/*funcao L1*/
 		
 		}
 		vetor_ordenado[0] = -1;
+		i = 0;
 		
 		while (i < total_aeroportos)
 		{
