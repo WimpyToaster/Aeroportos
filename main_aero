@@ -59,8 +59,6 @@ int encontra_indice(char id[]); /*repeticao da funcao anterior, mas apenas aceit
 
 int nr_voos();
 
-void empurra_vetor(int j, int vetor[]);
-
 
 /* prototipos funcoes TAD aeroporto */
 
@@ -541,57 +539,46 @@ void ordenar_entrada_sistema()/*funcao L0*/
 }
 
 void ordenar_alfabetica()/*funcao L1*/
-{/*insertion*/
-	if (total_aeroportos == 0)
-		
-		printf("Nao e' possivel ordenar, nao existem aeroportos.");
+{
+	int i = 0;
+	int j = 0;
+	int pointer = 0;
+	int index = 0;
+	int vetor_ordenacao[total_aeroportos];
 	
-	else
+	while (i < total_aeroportos)
 	{
-		int i = 0;
-		int j = 0;
-		int index = 0;
-		int vetor_ordenado[total_aeroportos];
-		
-		while (i < total_aeroportos)/*inicialiacao do vetor*/
+		vetor_ordenacao[i] = i;
+		i++;
+		printf("%d", i);
+	}
+	
+	i = 0;
+	while (i < total_aeroportos)
+	{
+		while (j < total_aeroportos)
 		{
-			vetor_ordenado[i] = 0;
-			i++;
-		
-		}
-		vetor_ordenado[0] = -1;
-		i = 0;
-		
-		while (i < total_aeroportos)
-		{	
-			while (j < total_aeroportos)
-			{	
-				if (strcmp(generico[j].id, generico[i].id) > 0)
-				{
-					empurra_vetor(j, vetor_ordenado);
-					vetor_ordenado[j] = i;
-					
-				}
-				j++;
-					
+			if (strcmp(generico[pointer].id, generico[j].id) > 0)
+			{
+				pointer = j;
 			}
-			i++;
-			j = 0;
+			j++;
+		}	
+	
+		vetor_ordenacao[i] = pointer;
+		pointer = i++;
+		j = 0;
+	}
+	
+	i = 0;
+	while (i < total_aeroportos)
+	{
+		index = vetor_ordenacao[i];
+		printf("%s:%d:%d:%d", generico[index].id, aero_cap_max(index), aero_outgoing(index), aero_incoming(index));
+		i++;
 		
-		}
-		
-		i = 0;
-		
-		while (i < total_aeroportos)
-		{
-			index = vetor_ordenado[i];
-			printf("%s:%d:%d:%d", generico[index].id, aero_cap_max(index), aero_outgoing(index), aero_incoming(index));
-			i++;
-			
-		}
 	}
 }
-
 void ordenar_histograma()/*funcao L2*/
 {
 	int i = 0, t = 0;
@@ -754,30 +741,4 @@ int nr_voos()
 	
 	return acc;
 
-}
-
-
-void empurra_vetor(int j, int vetor_ordenado[])
-{
-	int vetor_buffer[total_aeroportos];
-	int i = 0;
-	
-	while (i < (total_aeroportos - 1))
-	{
-		if (i < j)
-			vetor_buffer[i] = vetor_ordenado[i];
-			
-		else
-			vetor_buffer[i + 1] = vetor_ordenado[i];
-		
-		i++;
-	}
-	
-	i = 0;
-	while (i < total_aeroportos)
-	{
-		vetor_ordenado[i] = vetor_buffer[i];
-		i++;
-		
-	}
 }
