@@ -571,7 +571,7 @@ void ordenar_alfabetica()/*funcao L1*/
 	{
 		while (j < total_aeroportos)
 		{
-			if ((strcmp(generico[pointer].id, generico[j].id) > 0) && !(elemento_in_vec(pointer, memoria)))
+			if ((strcmp(generico[pointer].id, generico[j].id) > 0) && !(elemento_in_vec(j, memoria)))
 			{
 				pointer = j;
 			}
