@@ -573,10 +573,10 @@ void ordenar_alfabetica()/*funcao L1*/
 		}	
 		
 		if (flag == 1)
-		{
 			memoria[i] = pointer;
-			flag = 0;
-		}
+		else
+			memoria[i] = i;
+		flag = 0;
 		pointer = i;
 		i++;
 		j = 1;
